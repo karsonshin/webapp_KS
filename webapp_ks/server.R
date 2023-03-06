@@ -4,7 +4,7 @@
 library(shiny)
 library(tidyverse)
 
-cereal <- read_delim("../data/cereal.csv")
+cereal <- read_delim("cereal.csv")
 
 # Define server logic required to draw a histogram
 function(input, output, session) {

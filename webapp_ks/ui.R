@@ -10,7 +10,7 @@
 library(shiny)
 library(tidyverse)
 
-cereal <- read_delim("../data/cereal.csv")
+cereal <- read_delim("cereal.csv")
 cal_range <- range(cereal$calories)
 
 # Define UI for application that draws a histogram

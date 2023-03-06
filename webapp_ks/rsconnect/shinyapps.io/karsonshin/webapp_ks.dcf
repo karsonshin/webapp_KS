@@ -1,0 +1,13 @@
+name: webapp_ks
+title: webapp_ks
+username:
+account: karsonshin
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 8485464
+bundleId: 6920028
+url: https://karsonshin.shinyapps.io/webapp_ks/
+when: 1678083340.45815
+lastSyncTime: 1678083340.45816
+asMultiple: FALSE
+asStatic: FALSE
