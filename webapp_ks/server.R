@@ -1,28 +1,48 @@
-#
-# This is the server logic of a Shiny web application. You can run the
-# application by clicking 'Run App' above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
+
+
 
 library(shiny)
+library(tidyverse)
+
+cereal <- read_delim("../data/cereal.csv")
 
 # Define server logic required to draw a histogram
 function(input, output, session) {
-
-    output$distPlot <- renderPlot({
-
-        # generate bins based on input$bins from ui.R
-        x    <- faithful[, 2]
-        bins <- seq(min(x), max(x), length.out = input$bins + 1)
-
-        # draw the histogram with the specified number of bins
-        hist(x, breaks = bins, col = 'darkgray', border = 'white',
-             xlab = 'Waiting time to next eruption (in mins)',
-             main = 'Histogram of waiting times')
-
-    })
-
+  
+  # calories per serving vs sugars
+  output$plot <- renderPlot({
+    data <- cereal %>%
+      filter(calories > input$range[1], calories < input$range[2])
+    
+    ggplot(
+      data = data, 
+      mapping = aes(x = calories, y = sugars)) +
+      geom_point(col = input$color, size= 3) + 
+      labs(x = "Calories", y = "Sugars") 
+  })
+  
+  output$plottext <- renderText({
+    paste("You have chosen a range that goes from",
+          input$range[1], "to", input$range[2])
+  })
+  
+  # name vs rating
+  namevsrate <- reactive({
+    ratingname <- cereal %>%
+      filter(rating > input$range2[1], rating < input$range2[2])
+    
+    ratingname[input$range2[1]:input$range2[2], ] %>% 
+      select(rating, input$manu) %>% 
+      arrange(rating)
+  })
+  
+  output$table <- renderTable({
+    namevsrate()
+  })
+  
+  output$tabletext <- renderText({
+    paste("You have chosen a range that goes from",
+          input$range2[1], "to", input$range2[2])
+  })
+  
 }
